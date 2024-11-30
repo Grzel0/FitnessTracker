@@ -47,5 +47,28 @@ class MainActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+        btnDodaj.setOnClickListener {
+            val dystans = inputDystans.text.toString().toDoubleOrNull() ?: 0.0
+            val czas = inputCzas.text.toString().toIntOrNull() ?: 0
+            val kalorie = inputKalorie.text.toString().toIntOrNull() ?: 0
+            val intensywnosc = seekbarIntensywnosc.progress
+
+            val typ = when (radioGrupa.checkedRadioButtonId) {
+                R.id.radio_spacer -> "Spacer"
+                R.id.radio_bieg -> "Bieg"
+                else -> "Trening siłowy"
+            }
+
+            val trening = Trening(dystans, czas, kalorie, intensywnosc, typ)
+            treningi.add(trening)
+            adapter.notifyDataSetChanged()
+
+            inputDystans.text.clear()
+            inputCzas.text.clear()
+            inputKalorie.text.clear()
+            seekbarIntensywnosc.progress = 1
+            textIntensywnosc.text = "Intensywność: 1"
+            radioGrupa.clearCheck()
+        }
     }
 }
